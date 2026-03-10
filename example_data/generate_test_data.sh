@@ -77,6 +77,7 @@ echo
 
 # Build the kafka command
 kafka_cmd=$(build_kafka_command)
+echo $kafka_cmd
 
 # Infinite loop to generate and send actions
 while true; do

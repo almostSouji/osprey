@@ -132,6 +132,7 @@ const EventStream: React.FC = () => {
     }
 
     const item = eventStream[index];
+
     const features =
       customSummaryFeatures == null ? getSummaryFeatures(item.extracted_features.ActionName) : [customSummaryFeatures];
 
