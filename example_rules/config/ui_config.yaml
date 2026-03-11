@@ -1,0 +1,6 @@
+ui_config:
+  default_summary_features:
+    - actions: ["*"]
+      features: ["UserId", "EventType"]
+    - actions: ["message_create"]
+      features: ["GuildId", "ChannelId", "Content"]

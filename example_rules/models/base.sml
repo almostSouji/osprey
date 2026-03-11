@@ -10,7 +10,6 @@ EventType: Entity[str] = EntityJson(
   coerce_type=True
 )
 
-
 GuildId: Entity[str] = EntityJson(
   type='Guild',
   path='$.guild_id',
