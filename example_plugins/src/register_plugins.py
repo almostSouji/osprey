@@ -6,13 +6,12 @@ from osprey.worker.lib.config import Config
 from osprey.worker.lib.storage.labels import LabelsServiceBase
 from osprey.worker.sinks.sink.output_sink import BaseOutputSink, StdoutOutputSink
 from services.labels_service import PostgresLabelsService
-from udfs.ban_user import BanUser
 from udfs.text_contains import TextContains
 
 
 @hookimpl_osprey
 def register_udfs() -> Sequence[Type[UDFBase[Any, Any]]]:
-    return [TextContains, BanUser]
+    return [TextContains]
 
 
 @hookimpl_osprey
