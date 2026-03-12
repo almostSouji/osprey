@@ -219,6 +219,7 @@ extend-exclude = [
     # Exclude protobuf generated files
     "**/*_pb2*.py",
     "**/*_pb2*.pyi",
+    "*.sml"
 ]
 
 [tool.ruff.format]

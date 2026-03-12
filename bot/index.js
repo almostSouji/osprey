@@ -22,41 +22,60 @@ const kafka = new Kafka({
 });
 
 let actionCounter = 0;
+let lastTimestamp = 0;
+
+function generateActionId() {
+  const now = Date.now();
+  if (now === lastTimestamp) {
+    actionCounter++;
+  } else {
+    lastTimestamp = now;
+    actionCounter = 0;
+  }
+  // Shift timestamp left by 10 bits to leave room for up to 1024 actions per ms
+  return now * 1024 + actionCounter;
+}
 
 const producer = kafka.producer();
 await producer.connect();
 
-client.on(
-  GatewayDispatchEvents.MessageCreate,
-  async ({ data: message, api }) => {
-    console.log(message.content);
-
-    const actionId = ++actionCounter;
-
-    const envelope = {
-      send_time: new Date().toISOString(),
-      data: {
-        action_id: actionId,
-        action_name: "message_create",
-        data: {
-          content: message.content,
-          author: message.author,
-          guild_id: message.guild_id,
-          channel_id: message.channel_id,
-          event_type: "message_create",
-        },
+async function kafkaSend(actionName, data) {
+  await producer.send({
+    topic: "osprey.actions_input",
+    messages: [
+      {
+        value: JSON.stringify({
+          send_time: new Date().toISOString(),
+          data: {
+            action_id: generateActionId(),
+            action_name: actionName,
+            data,
+          },
+        }),
       },
-    };
+    ],
+  });
+}
 
-    await producer.send({
-      topic: "osprey.actions_input",
-      messages: [
-        {
-          value: JSON.stringify(envelope),
-        },
-      ],
-    });
-  },
-);
+client.on(GatewayDispatchEvents.MessageCreate, async ({ data: message }) => {
+  console.log(message.content);
+
+  await kafkaSend("message_create", message);
+});
+
+client.on(GatewayDispatchEvents.MessageDelete, async ({ data }) => {
+  await kafkaSend("message_delete", data);
+});
+
+client.on(GatewayDispatchEvents.MessageDeleteBulk, async ({ data }) => {
+  const { ids, channel_id, guild_id } = data;
+  for (const id of ids) {
+    await kafkaSend("message_delete", { id, channel_id, guild_id });
+  }
+});
+
+client.on(GatewayDispatchEvents.MessageUpdate, async ({ data: message }) => {
+  await kafkaSend("message_update", message);
+});
 
 gateway.connect();

@@ -1,5 +1,5 @@
 labels:
-  meow:
-    valid_for: [User]
-    connotation: positive
-    description: testing label
+  deleted:
+    valid_for: [Message]
+    connotation: neutral
+    description: This entity was deleted

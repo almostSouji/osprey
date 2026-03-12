@@ -31,12 +31,21 @@ Potentially best to use https://kafka.js.org/docs/configuration for a JS/TS proj
 
 ## SML
 
+- Subset of Python
+- "rules" folder structure is just organizational, every action causes execution from `main.sml` (conditional Require to handle intersecting data "models")
+- Entity `type` determines the entity, not the feaure name
+
 ## UDF
 
 - User Defined Functions
 - Written in Python
 - Can be used in Rules
-- Can be used in queries? (according to docs)
+- For use in queries, needs `to_druid_query` as shown below
+
+```py
+def to_druid_query(self) -> Dict[str, object]:
+    return {'type': 'regex', 'dimension': self.item, 'pattern': self.regex}
+```
 
 ## Output Sink
 
@@ -49,3 +58,4 @@ Potentially best to use https://kafka.js.org/docs/configuration for a JS/TS proj
 
 - Discord Blog: https://discord.com/blog/osprey-open-sourcing-our-rule-engine
 - Haileys Rules: https://github.com/haileyok/atproto-ruleset
+- Osprey Docs: https://roostorg.github.io/osprey/index.html

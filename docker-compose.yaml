@@ -379,6 +379,9 @@ services:
     restart: "no"
 
   bot:
+    depends_on:
+      - osprey-worker
+      - osprey-kafka
     build:
       context: bot/
       dockerfile: Dockerfile
