@@ -5,3 +5,5 @@ AuthorId: Entity[str] = EntityJson(
 
 AuthorName: str = JsonData(path='$.author.username')
 Content: str = JsonData(path='$.content')
+
+InviteCodes: List[str] = ParseInvites(text=Content)

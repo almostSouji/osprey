@@ -1,8 +1,6 @@
 ui_config:
   default_summary_features:
-    - actions: ["*"]
-      features: ["UserId", "EventType"]
     - actions: ["message_create", "message_delete", "message_update"]
-      features: ["GuildId", "ChannelId", "MessageId"]
+      features: ["AuthorId", "AuthorName", "GuildId", "ChannelId", "MessageId"]
     - actions: ["message_create", "message_update"]
       features: ["Content"]

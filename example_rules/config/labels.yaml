@@ -3,3 +3,15 @@ labels:
     valid_for: [Message]
     connotation: neutral
     description: This entity was deleted
+  has-invite:
+    valid_for: [Message]
+    connotation: neutral
+    description: Contains invite links
+  has-everyone-mention:
+    valid_for: [Message]
+    connotation: neutral
+    description: Mentions @everyone or @here
+  invite-spam:
+    valid_for: [User, Message]
+    connotation: negative
+    description: Mentions @everyone or @here with invite links

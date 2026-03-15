@@ -5,10 +5,6 @@ Import(
     ]
 )
 
-Require(
-    rule='models/message/message_create.sml',
-    require_if=ActionName in ["message_create", "message_update"]
-)
 
 MessageDeleteRule = Rule(
     when_all=[ActionName == 'message_delete'],
@@ -20,4 +16,14 @@ WhenRules(
     then=[
         LabelAdd(entity=MessageId, label='deleted')
     ]
+)
+
+Require(
+    rule='models/message/message_create.sml',
+    require_if=ActionName in ["message_create", "message_update"]
+)
+
+Require(
+    rule='rules/message_create.sml',
+    require_if=ActionName in ["message_create", "message_update"]
 )
